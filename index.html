@@ -160,30 +160,6 @@
                     <canvas id="radarChart"></canvas>
                 </div>
 
-                <!-- Summary Stats -->
-                <div class="flex w-full justify-center gap-8 md:gap-12 mt-4 border-t border-slate-100 pt-6">
-                    <div id="currentAvgContainer" class="flex flex-col items-center transition-opacity duration-300">
-                        <span class="text-xs text-blue-600 uppercase tracking-widest font-bold mb-1 flex items-center gap-1">
-                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"></path></svg>
-                            Current Avg
-                        </span>
-                        <div class="flex items-baseline gap-1">
-                            <span id="currentAvg" class="text-3xl md:text-4xl font-extrabold text-slate-800">0.0</span>
-                            <span class="text-lg text-slate-400 font-medium">/10</span>
-                        </div>
-                    </div>
-                    <div class="w-px bg-slate-200 h-12 self-center"></div>
-                    <div id="projectAvgContainer" class="flex flex-col items-center transition-opacity duration-300">
-                        <span class="text-xs text-emerald-600 uppercase tracking-widest font-bold mb-1 flex items-center gap-1">
-                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10" stroke-width="2"></circle><circle cx="12" cy="12" r="6" stroke-width="2"></circle><circle cx="12" cy="12" r="2" stroke-width="2"></circle></svg>
-                            Project Avg
-                        </span>
-                        <div class="flex items-baseline gap-1">
-                            <span id="projectAvg" class="text-3xl md:text-4xl font-extrabold text-slate-800">0.0</span>
-                            <span class="text-lg text-slate-400 font-medium">/10</span>
-                        </div>
-                    </div>
-                </div>
 
                 <!-- Gap Analysis -->
                 <div class="mt-6 pt-4 border-t border-slate-100">
@@ -211,12 +187,12 @@
                 <div class="flex gap-2 mb-4">
                     <button id="toggleCurrent" onclick="toggleDataset('current')" class="flex-1 flex items-center justify-center gap-1 py-2 px-2 rounded-lg border transition-all text-xs bg-blue-50 border-blue-200 text-blue-700">
                         <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path></svg>
-                        <span class="font-bold uppercase tracking-wide">Current</span>
+                        <span class="font-bold uppercase tracking-wide">Current Context</span>
                     </button>
 
                     <button id="toggleProject" onclick="toggleDataset('project')" class="flex-1 flex items-center justify-center gap-1 py-2 px-2 rounded-lg border transition-all text-xs bg-emerald-50 border-emerald-200 text-emerald-700">
                         <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path></svg>
-                        <span class="font-bold uppercase tracking-wide">Project</span>
+                        <span class="font-bold uppercase tracking-wide">Project Context</span>
                     </button>
                 </div>
 
@@ -256,14 +232,14 @@
     <script>
         // Dimension data and descriptions
         const dimensions = [
-            { name: 'Process Rigor', current: 4, project: 6 },
-            { name: 'Stakeholder Engagement', current: 7, project: 8 },
-            { name: 'Documentation Formality', current: 5, project: 4 },
-            { name: 'Organizational Maturity', current: 6, project: 7 },
-            { name: 'Adaptability', current: 8, project: 9 },
-            { name: 'System Complexity', current: 3, project: 5 },
-            { name: 'Team Distribution', current: 5, project: 6 },
-            { name: 'Risk Profile', current: 4, project: 3 }
+            { name: 'Process Rigor', current: 2, project: 3 },
+            { name: 'Stakeholder Engagement', current: 4, project: 4 },
+            { name: 'Documentation Formality', current: 3, project: 2 },
+            { name: 'Organizational Maturity', current: 3, project: 4 },
+            { name: 'Adaptability', current: 4, project: 5 },
+            { name: 'System Complexity', current: 2, project: 3 },
+            { name: 'Team Distribution', current: 3, project: 3 },
+            { name: 'Risk Profile', current: 2, project: 2 }
         ];
 
         const descriptions = {
@@ -286,7 +262,6 @@
             renderControls();
             renderDimensionDescriptions();
             createChart();
-            updateAverages();
             updateGapAnalysis();
         }
 
@@ -300,7 +275,7 @@
                     labels: dimensions.map(d => d.name),
                     datasets: [
                         {
-                            label: 'Current Situation',
+                            label: 'Current Context',
                             data: dimensions.map(d => d.current),
                             backgroundColor: 'rgba(59, 130, 246, 0.2)',
                             borderColor: 'rgba(37, 99, 235, 1)',
@@ -312,7 +287,7 @@
                             hidden: !showCurrent
                         },
                         {
-                            label: 'Project Situation',
+                            label: 'Project Context',
                             data: dimensions.map(d => d.project),
                             backgroundColor: 'rgba(16, 185, 129, 0.2)',
                             borderColor: 'rgba(5, 150, 105, 1)',
@@ -331,10 +306,10 @@
                     scales: {
                         r: {
                             beginAtZero: true,
-                            max: 10,
+                            max: 5,
                             min: 0,
                             ticks: {
-                                stepSize: 2,
+                                stepSize: 1,
                                 font: { size: 10 },
                                 backdropColor: 'transparent'
                             },
@@ -393,7 +368,7 @@
                                         <span class="text-[10px] font-bold text-blue-400 uppercase">Cur</span>
                                         <span id="currentVal${index}" class="text-sm font-bold text-blue-700">${dim.current}</span>
                                     </div>
-                                    <input type="range" min="0" max="10" step="1" value="${dim.current}"
+                                    <input type="range" min="1" max="5" step="1" value="${dim.current}"
                                         onchange="updateValue(${index}, 'current', this.value)"
                                         oninput="updateValue(${index}, 'current', this.value)"
                                         class="w-full blue-slider">
@@ -405,7 +380,7 @@
                                         <span class="text-[10px] font-bold text-emerald-400 uppercase">Proj</span>
                                         <span id="projectVal${index}" class="text-sm font-bold text-emerald-700">${dim.project}</span>
                                     </div>
-                                    <input type="range" min="0" max="10" step="1" value="${dim.project}"
+                                    <input type="range" min="1" max="5" step="1" value="${dim.project}"
                                         onchange="updateValue(${index}, 'project', this.value)"
                                         oninput="updateValue(${index}, 'project', this.value)"
                                         class="w-full green-slider">
@@ -443,7 +418,6 @@
             chart.data.datasets[datasetIndex].data[index] = parseInt(value);
             chart.update('none');
 
-            updateAverages();
             updateGapAnalysis();
         }
 
@@ -454,42 +428,27 @@
                 chart.data.datasets[0].hidden = !showCurrent;
 
                 const btn = document.getElementById('toggleCurrent');
-                const avgContainer = document.getElementById('currentAvgContainer');
 
                 if (showCurrent) {
                     btn.className = 'flex-1 flex items-center justify-center gap-1 py-2 px-2 rounded-lg border transition-all text-xs bg-blue-50 border-blue-200 text-blue-700';
-                    avgContainer.classList.remove('opacity-30');
                 } else {
                     btn.className = 'flex-1 flex items-center justify-center gap-1 py-2 px-2 rounded-lg border transition-all text-xs bg-slate-50 border-slate-200 text-slate-400';
-                    avgContainer.classList.add('opacity-30');
                 }
             } else {
                 showProject = !showProject;
                 chart.data.datasets[1].hidden = !showProject;
 
                 const btn = document.getElementById('toggleProject');
-                const avgContainer = document.getElementById('projectAvgContainer');
 
                 if (showProject) {
                     btn.className = 'flex-1 flex items-center justify-center gap-1 py-2 px-2 rounded-lg border transition-all text-xs bg-emerald-50 border-emerald-200 text-emerald-700';
-                    avgContainer.classList.remove('opacity-30');
                 } else {
                     btn.className = 'flex-1 flex items-center justify-center gap-1 py-2 px-2 rounded-lg border transition-all text-xs bg-slate-50 border-slate-200 text-slate-400';
-                    avgContainer.classList.add('opacity-30');
                 }
             }
 
             chart.update();
             renderControls();
-        }
-
-        // Update average displays
-        function updateAverages() {
-            const currentSum = dimensions.reduce((sum, d) => sum + d.current, 0);
-            const projectSum = dimensions.reduce((sum, d) => sum + d.project, 0);
-
-            document.getElementById('currentAvg').textContent = (currentSum / dimensions.length).toFixed(1);
-            document.getElementById('projectAvg').textContent = (projectSum / dimensions.length).toFixed(1);
         }
 
         // Update gap analysis display
@@ -522,14 +481,14 @@
         // Reset to default values
         function resetData() {
             const defaults = [
-                { current: 4, project: 6 },
-                { current: 7, project: 8 },
-                { current: 5, project: 4 },
-                { current: 6, project: 7 },
-                { current: 8, project: 9 },
-                { current: 3, project: 5 },
-                { current: 5, project: 6 },
-                { current: 4, project: 3 }
+                { current: 2, project: 3 },
+                { current: 4, project: 4 },
+                { current: 3, project: 2 },
+                { current: 3, project: 4 },
+                { current: 4, project: 5 },
+                { current: 2, project: 3 },
+                { current: 3, project: 3 },
+                { current: 2, project: 2 }
             ];
 
             dimensions.forEach((dim, i) => {
@@ -547,14 +506,11 @@
             chart.update();
 
             renderControls();
-            updateAverages();
             updateGapAnalysis();
 
             // Reset toggle buttons
             document.getElementById('toggleCurrent').className = 'flex-1 flex items-center justify-center gap-1 py-2 px-2 rounded-lg border transition-all text-xs bg-blue-50 border-blue-200 text-blue-700';
             document.getElementById('toggleProject').className = 'flex-1 flex items-center justify-center gap-1 py-2 px-2 rounded-lg border transition-all text-xs bg-emerald-50 border-emerald-200 text-emerald-700';
-            document.getElementById('currentAvgContainer').classList.remove('opacity-30');
-            document.getElementById('projectAvgContainer').classList.remove('opacity-30');
         }
 
         // Toggle info panel
